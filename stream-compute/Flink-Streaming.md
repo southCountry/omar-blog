@@ -89,3 +89,27 @@ this feature exposes Flink’s managed keyed (partitioned) state (see Working wi
 Currently, schema evolution is supported only for POJO and Avro types. Therefore, if you care about schema evolution for state, it is currently recommended to always use either Pojo or Avro for state data types.
 
 ### Operators 
+
+### window
+a window is created as soon as the first element that should belong to this window arrives, and the window is completely removed when the time (event or processing time) passes its end timestamp plus the user-specified allowed lateness
+
+#### Tumbling Windows
+A tumbling windows assigner assigns each element to a window of a specified window size.
+
+#### Sliding Windows
+The sliding windows assigner assigns elements to windows of fixed length.
+
+#### Session Windows
+The session windows assigner groups elements by sessions of activity. Session windows do not overlap and do not have a fixed start and end time, in contrast to tumbling windows and sliding windows. 
+
+#### Global Windows
+A global windows assigner assigns all elements with the same key to the same single global window. 
+
+#### Interaction of watermarks and windows
+When watermarks arrive at the window operator this triggers two things:
+
+1. the watermark triggers computation of all windows where the maximum timestamp (which is end-timestamp - 1) is smaller than the new watermark
+2. the watermark is forwarded (as is) to downstream operations
+
+### Joining
+A window join joins the elements of two streams that share a common key and lie in the same window. These windows can be defined by using a window assigner and are evaluated on elements from both of the streams.
