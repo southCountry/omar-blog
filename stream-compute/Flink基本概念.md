@@ -12,7 +12,7 @@
 
 #### 窗口
 ![window](https://github.com/southCountry/omar-blog/raw/master/images/flink/window.png) 
-
+aa
 #### 时间
 - 事件时间
 - 摄入时间
