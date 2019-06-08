@@ -1,3 +1,14 @@
+## 什么是flink
+Apache Flink is a framework and distributed processing engine for stateful computations over unbounded and bounded data streams.
+
+### 基础处理语义
+- stream
+- state
+- time
+
+### 架构
+![flink应用支持本地状态存取。flink通过本地状态持久化存储以及周期性触发异步检查点任务来保证exactly-once语义。](https://github.com/southCountry/omar-blog/raw/master/images/flink/architecture.png)
+
 ### Flink编码步骤
 1. 获得执行环境
 > StreamExecutionEnvironment env = StreamExecutionEnvironment.getExecutionEnvironment();
