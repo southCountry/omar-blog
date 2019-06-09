@@ -1,3 +1,9 @@
+### 流处理API的演变
+![流处理API的演变](https://github.com/southCountry/omar-blog/raw/master/images/flink/evolution-stream.png)
+
+### flink api操作
+![flink基本操作示意圖](https://github.com/southCountry/omar-blog/raw/master/images/flink/operation-overview.png)
+
 ### 时间
 时间是实时计算中绝大多数操作的基础。因此，对于时间的定义变得十分重要。
 
@@ -7,7 +13,7 @@ flink提供三种语义的时间。
 - processing time 引擎对事件执行操作的时间，需要使用系统时间作为判断基准时使用，比如需要统计系统每小时的吞吐量
 - Ingestion time 事件流入flink系统的时间，使用较少
 
-![time](https://github.com/southCountry/omar-blog/raw/master/images/flink/time.png)
+![flink中的时间](https://github.com/southCountry/omar-blog/raw/master/images/flink/time.png)
 
 指定时间类型操作如下：
 ```java
@@ -136,11 +142,19 @@ DataStream<MyEvent> withTimestampsAndWatermarks =
 });
 ```
 ## flink的状态
+
+#### 状态使用场景
+- 去重
+- 窗口计算
+- 迭代计算（机器学习）
+- 访问历史数据，数据横向对比
+
 对于有状态的计算而言，状态的存储是十分必要的。对比storm需要开发者自己开发状态的存储和读取逻辑，flink提供了一系列接口，用于状态的保存和读取。
 
 flink有两种类型的状态：
 1. Keyed State：顾名思义，跟key相关的状态，只能用于KeyedStream
 2. Operator State：节点的状态
+![对比](https://github.com/southCountry/omar-blog/raw/master/images/flink/key-operator-state.png)
 
 ### key group
 多个key state的集合，key group的数量和流的并行度相同。
@@ -148,11 +162,14 @@ flink有两种类型的状态：
 ### state的存储结构
 1. Raw：数据结构用户自己维护
 2. Managed：flink运行时提供了多种状态存储结构，如“ValueState”, “ListState”
+![状态对比](https://github.com/southCountry/omar-blog/raw/master/images/flink/state-comparation.png)
 
 ### 状态的TTL
 当一个基于key的存储状态到期了，flink会尽最大努力清除这个状态。
 
 默认，过期的状态，仅在状态被显示读取的时候删除。
+![状态存储在JVM Heap中](https://github.com/southCountry/omar-blog/raw/master/images/flink/state-in-mem.png)
+![状态存储在外部存储引擎中](https://github.com/southCountry/omar-blog/raw/master/images/flink/state-in-rocksdb.png)
 
 ### Broadcast State
 Broadcast State是一种特殊的状态，它会被广播到下游的每个子任务。一个使用场景是，广播一个会更新的规则流到子节点，子节点存储这些规则并依据规则执行任务。
@@ -160,9 +177,10 @@ Broadcast State是一种特殊的状态，它会被广播到下游的每个子�
 ## 检查点Checkpointing
 flink的失败容错特性是使用检查点机制来进行数据快照和恢复的。
 
+![分散式快照](https://github.com/southCountry/omar-blog/raw/master/images/flink/distributed-snapshot.png)
 ### Checkpointing快照和恢复流程
 
-## Operator
-Operator将数据流或数据集从一种状态转化为另一种状态，是执行数据操作和用户自定义函数的地方。
+### KeyedStream
+![KeyedStream](https://github.com/southCountry/omar-blog/raw/master/images/flink/keyed-Stream.png)
 
 ### 窗口操作
