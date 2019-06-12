@@ -21,5 +21,5 @@ se::deserialze (4032 bytes)
 ShopFooterRespon这个类是一个pojo，并且这次修改只是修改了其父类，新增了一个字段。但是这里却出现异常，令人费解。google后了解到低版本的fastjson反序列化的类中属性个数正好等于32或者是64的时候就会出错。于是数了一下ShopFooterRespon类的字段以及其父类的字段数，大梦初醒。升级fastjson版本后问题解决。
 
 ### 相关文章
-![fastjson反序列化的时候报错](https://blog.csdn.net/u013008179/article/details/78904395)
-![JVM致命错误日志(hs_err_pid.log)分析](https://blog.csdn.net/github_32521685/article/details/50355661)
+[fastjson反序列化的时候报错](https://blog.csdn.net/u013008179/article/details/78904395)
+[JVM致命错误日志(hs_err_pid.log)分析](https://blog.csdn.net/github_32521685/article/details/50355661)
